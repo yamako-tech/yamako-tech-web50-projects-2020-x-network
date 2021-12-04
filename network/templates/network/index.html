@@ -1,0 +1,46 @@
+{% extends "network/layout.html" %}
+{% block title %}All Posts{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <!-- Add New Post -->
+    <section class="add_new_post">
+        <h3 class="text-center welcome" >Please Signup/Login to Post, Like and Follow!</h3><br>
+        {% if user.is_authenticated %}
+        <div class="new_post_container">
+            <form action="{% url 'new_post' %}" method="POST" id="form_box">
+                {% csrf_token %}
+                <h3 class="msg">Say something nice...<i class="far fa-smile-wink"></i></h3><br>
+                <textarea class="form-control rounded textarea1" name="new_post" rows="3"></textarea>
+                <br>
+                <input type="submit" value="Post" class="btn btn-info mb-2">
+            </form>
+        </div><br>
+        {% endif %}
+    </section>
+
+    <!-- View All Posts -->  
+
+    <div calss="articles-outer">
+        {% for post in posts %}
+        <div class="article">
+            <div class="alert alert-success post-id{{ post.id }}" role="alert">
+                <h3 id="post_content" data-id={{post.id}}>{{ post.content }}</h3>
+                <p>by <a href="{% url 'profile' post.user.pk %}">@{{ post.user}}</a> on {{ post.created }}</p>
+                <div class="like-outer">
+                    {% include 'network/like.html' %}
+                </div>
+                {% if user.id == post.user.id %}
+                    <a href="{% url 'edit_post' post.pk %}">Edit</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% include 'network/page.html' %}
+</div>
+
+{% endblock %}

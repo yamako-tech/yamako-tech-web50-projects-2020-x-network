@@ -1,0 +1,23 @@
+{% extends "network/layout.html" %}
+{% block title %}Edit Post{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <!-- Edit ost -->
+    <section class="add_new_post">
+        {% if user.is_authenticated %}
+        <div class="new_post_container">
+            <h1>Edit Post</h1>
+                <form action="#" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-success mt-3">Submit</button>
+                </form>
+        </div><br>
+        {% endif %}
+    </section>
+
+</div>
+
+{% endblock %}
